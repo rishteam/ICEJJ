@@ -5,12 +5,17 @@ class NPC : public Character{
 public:
 
 	NPC();
-	NPC(int delay);
+	NPC(int face);
+	NPC(float delay);
 
-	void setDelay(int time);
+	void setDelay(float time);
 	void update();
 	void setNPCMovement(int loop[], int len);
 	void processInput();
+	void createSprite(int type);
+	void setSkill(int type);
+	void setBattleSprite();
+	sf::Sprite getBattleSprite();
 
 private:
 
@@ -19,10 +24,12 @@ private:
 	int m_movementLen;
 	int m_movementIndex;
 
-	int delayTime;
+	float delayTime;
 	int counter;
+	int provideExp;
+	int m_type;
 
-
+	sf::Sprite m_battleSprite;
 	std::vector<int> m_movement;
 
 };

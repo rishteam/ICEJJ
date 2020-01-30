@@ -96,10 +96,20 @@ void Map::setNPCPos(int x, int y){
 	occupy[index] = true;
 }
 
+// void Map::stickCharacter(int index, Character character){
+
+// 	occupied[index] = character;
+// }
+
 bool Map::hasPeople(int index){
 
 	return occupy[index];
 }
+
+// Character Map::getCharacter(int index){
+
+// 	return occupied[index];
+// }
 
 bool Map::canWalk(int blockIndex, int dir){
 

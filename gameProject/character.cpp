@@ -4,13 +4,14 @@
 
 Character::Character(){
 
+	// std::cout << "Character one" << "\n";
 	m_rectSourceSprite = sf::IntRect(0, 0, 77, 77);
 	m_preDir = STOP;
 	m_dir = STOP;
 
 	m_valid = true;
 	m_collision = false;
-	m_delay = 1;
+	// m_delay = 1;
 }
 
 Character::Character(int face){
@@ -20,16 +21,18 @@ Character::Character(int face){
 
 
 	m_rectSourceSprite = sf::IntRect(0, y_pos, 77, 77);
+	std::cout << "Character two" << "\n";
 	m_preDir = STOP;
 	m_dir = STOP;
 
 	m_valid = true;
 	m_collision = false;
-	m_delay = 1;
+	// m_delay = 1;
 }
 
 Character::Character(sf::Texture texture, sf::Sprite sprite, int face){
 
+	std::cout << "Character three" << "\n";
 	face -= 1;
 	int y_pos = face * 77;
 
@@ -41,11 +44,7 @@ Character::Character(sf::Texture texture, sf::Sprite sprite, int face){
 
 	m_valid = true;
 	m_collision = false;
-	m_delay = 1;
-}
-void Character::importMap(Map map){
-
-	m_map = map;
+	// m_delay = 1;
 }
 
 void Character::setPosition(int x, int y){
@@ -82,37 +81,22 @@ void Character::collide(Character character){
 	else m_collision = false;
 }
 
-bool Character::talk(){
-
-	sf::Vector2f position = m_sprite.getPosition();
-	switch(m_preDir){
-
-		case FORWARD:
-			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+1)){
-				
-				// Character tmp = m_map.getCharacter(m_map.getBlockIndex(position.x, position.y)+1);
-			}
-		break;
-	}
-
-
-}
 
 void Character::move(){
 
-	if (m_delay == 1) m_delay = 0;
+	// if (m_delay == 1) m_delay = 0;
 
 	int dir = checkDir();
 
 	sf::Vector2f position = m_sprite.getPosition();
-	int blockIndex = m_map.getBlockIndex(position.x, position.y);
+	// int blockIndex = m_map.getBlockIndex(position.x, position.y);
 
 	if (clock.getElapsedTime().asSeconds() > 0.1f){
 
 		switch (dir){
 
 			case STOP:
-				if (DEBUG) std::cout << position.x << " " << position.y << " " << m_map.getBlockIndex(position.x, position.y) << "\n";
+				// if (DEBUG) std::cout << position.x << " " << position.y << " " << m_map.getBlockIndex(position.x, position.y) << "\n";
 				animation(STOP);
 				m_sprite.move(0, 0);
 			break;
@@ -121,48 +105,46 @@ void Character::move(){
 				printf("Move Forward\n");
 				animation(FORWARD);
 
-				if (m_delay <= 0){
 
-					if (!m_map.canWalk(blockIndex, FORWARD)) m_sprite.move(0, 0);
-					else if (position.x >= 1160) m_sprite.move(0, 0);
-					else m_sprite.move(32, 0);
-				}
+				// if (!m_map.canWalk(blockIndex, FORWARD)) m_sprite.move(0, 0);
+				if (position.x >= 1160) m_sprite.move(0, 0);
+				else m_sprite.move(32, 0);
+				
 
 			break;
 			case BACKWARD:
 				printf("Move Backward\n");
 				animation(BACKWARD);
 
-				if (m_delay <= 0){
 
-					if (!m_map.canWalk(blockIndex, BACKWARD)) m_sprite.move(0, 0);
-					else if (position.x <= 0) m_sprite.move(0, 0);
-					else m_sprite.move(-32, 0);
-				}
+				// if (!m_map.canWalk(blockIndex, BACKWARD)) m_sprite.move(0, 0);
+				if (position.x <= 0) m_sprite.move(0, 0);
+				else m_sprite.move(-32, 0);
+				
 
 			break;
 			case UP:
 				printf("Move UP\n");
 				animation(UP);
 
-				if (m_delay <= 0){
 
-					if (!m_map.canWalk(blockIndex, UP)) m_sprite.move(0, 0);
-					else if (position.y <= 0) m_sprite.move(0, 0);
-					else m_sprite.move(0, -32);
-				}
+
+				// if (!m_map.canWalk(blockIndex, UP)) m_sprite.move(0, 0);
+				if (position.y <= 0) m_sprite.move(0, 0);
+				else m_sprite.move(0, -32);
+				
 
 			break;
 			case DOWN:
 				printf("Move Down\n");
 				animation(DOWN);
 
-				if (m_delay <= 0){
 
-					if (!m_map.canWalk(blockIndex, DOWN)) m_sprite.move(0, 0);
-					else if (position.y >= 743) m_sprite.move(0, 0);
-					else m_sprite.move(0, 32);
-				}
+
+				// if (!m_map.canWalk(blockIndex, DOWN)) m_sprite.move(0, 0);
+				if (position.y >= 743) m_sprite.move(0, 0);
+				else m_sprite.move(0, 32);
+				
 
 			break;
 			default:
@@ -175,15 +157,17 @@ void Character::move(){
 
 		// printf("animation failed -> time: %f\n", clock.getElapsedTime().asSeconds());
 	}
-	m_delay++;
+	// m_delay++;
 }
 
 void Character::animation(int animate){
 
-
 	if(animate == STOP){
 
-		if(m_preDir == BACKWARD || m_preDir == FORWARD) m_rectSourceSprite.left = 539;
+		if(m_preDir == BACKWARD || m_preDir == FORWARD) {
+
+			m_rectSourceSprite.left = 539;
+		}
 	
 		else m_rectSourceSprite.left = 0;
 	}
@@ -231,5 +215,18 @@ sf::Sprite Character::show(){
 	return m_sprite;
 }
 
+Skill Character::getSkill(int index){
+
+	if(skillSet.size() < index){
+
+		std::cout << "such skill not found" << "\n";
+		return Skill("bug招", 200, 100, "?????", -1, Poison);
+	}
+	else return skillSet[index];
+}
 
 
+int Character::getSkillsetSize(){
+
+	return skillSet.size();
+}

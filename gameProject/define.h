@@ -15,13 +15,19 @@
 #define TALK 2
 #define BATTLE 3
 
-
+#define ENEMYHEA 0
+#define ENEMYATK 1
+#define ENEMYDEF 2
+#define ENEMYSPD 3 
+#define Boss     4
 
 #include<iostream>
 #include<string>
 #include<map>
 #include<vector>
 #include<map>
+#include<cstring>
+#include<numeric>
 #include<cstring>
 
 // std::map<int, std::string> m = {

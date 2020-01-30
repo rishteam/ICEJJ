@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "define.h"
+// #include "npc.h"
 
 #define GRASS 0
 #define WATER 1
@@ -42,10 +43,13 @@ public:
 	Map &operator=(const Map &rhs);
 	void setNPCPos(int x, int y);
 	bool hasPeople(int index);
+	// void stickCharacter(int index, Character character);
+	// Character getCharacter(int index);
 
 private:
 
 	void map(int *tiles);
 	std::vector<Element> mapMap;
 	bool occupy[1000];
+	// Character occupied[1000];
 };

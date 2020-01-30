@@ -5,6 +5,10 @@ Sticker::Sticker(Map map){
 	m_map = map;
 }
 
+void Sticker::setMap(Map map){
+
+	m_map = map;
+}
 
 void Sticker::stickCharacter(int index, Character character){
 

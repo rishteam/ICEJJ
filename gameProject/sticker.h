@@ -10,8 +10,10 @@ class Sticker{
 
 public:
 
+	Sticker() = default;
 	Sticker(Map map);
 
+	void setMap(Map map);
 	void stickCharacter(int index, Character character);
 	Character getCharacter(int index);
 

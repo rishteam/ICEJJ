@@ -15,7 +15,7 @@ S_LIB+=-lopenal32 -lvorbisenc -lvorbisfile -lvorbis -lFLAC -lm -logg
 LIBS=$(S_LIB)
 
 EXE=main
-SOURCES=main.cpp character.cpp player.cpp npc.cpp map.cpp
+SOURCES=main.cpp character.cpp map.cpp player.cpp npc.cpp sticker.cpp battle.cpp value.cpp skill.cpp skillSet.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
 

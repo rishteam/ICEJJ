@@ -3,9 +3,12 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "define.h"
-#include "map.h"
+// #include "map.h"
+#include "value.h"
+#include "skill.h"
+#include "skillSet.h"
 
-class Character {
+class Character : public Value {
 
 public:
 
@@ -18,14 +21,14 @@ public:
 	bool isCharacterValid();
 	void collide(Character Character);
 
-	bool talk();
 	void setPosition(int x, int y);
 	void setDir(int dir);
 	void move();
 	void update();
 	void createSprite(std::string str);
 	sf::Sprite show();
-	void importMap(Map map);
+	Skill getSkill(int index);
+	int getSkillsetSize();
 
 protected:
 
@@ -44,7 +47,7 @@ protected:
 	bool m_collision;
 	bool m_valid;
 
-	int m_delay;
 
-	Map m_map;
+	SkillSet allSkills;
+	std::vector<Skill> skillSet;
 };
