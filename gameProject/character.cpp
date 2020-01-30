@@ -1,3 +1,4 @@
+#pragma once
 #include "character.h"
 #include <iostream>
 
@@ -6,6 +7,25 @@ Character::Character(){
 	m_rectSourceSprite = sf::IntRect(0, 0, 77, 77);
 	m_preDir = STOP;
 	m_dir = STOP;
+
+	m_valid = true;
+	m_collision = false;
+	m_delay = 1;
+}
+
+Character::Character(int face){
+
+	face -= 1;
+	int y_pos = face*77;
+
+
+	m_rectSourceSprite = sf::IntRect(0, y_pos, 77, 77);
+	m_preDir = STOP;
+	m_dir = STOP;
+
+	m_valid = true;
+	m_collision = false;
+	m_delay = 1;
 }
 
 Character::Character(sf::Texture texture, sf::Sprite sprite, int face){
@@ -18,6 +38,24 @@ Character::Character(sf::Texture texture, sf::Sprite sprite, int face){
 	m_rectSourceSprite = sf::IntRect(0, y_pos, 77, 77);
 	m_preDir = STOP;
 	m_dir = STOP;
+
+	m_valid = true;
+	m_collision = false;
+	m_delay = 1;
+}
+void Character::importMap(Map map){
+
+	m_map = map;
+}
+
+void Character::setPosition(int x, int y){
+
+	m_sprite.setPosition(x, y);
+}
+
+void Character::setDir(int dir){
+
+	m_dir = dir;
 }
 
 int Character::checkDir(){
@@ -31,55 +69,103 @@ int Character::checkDir(){
 	return m_dir;
 }
 
+void Character::collide(Character character){
+
+	if(m_sprite.getPosition().x >= character.m_sprite.getPosition().x && m_sprite.getPosition().x <= character.m_sprite.getPosition().x+20){
+
+		if(m_sprite.getPosition().y >= character.m_sprite.getPosition().y && m_sprite.getPosition().y <= character.m_sprite.getPosition().y+30){
+
+			// std::cout << "Collision" << "\n";
+			m_collision = true;
+		}
+	}
+	else m_collision = false;
+}
+
+bool Character::talk(){
+
+	sf::Vector2f position = m_sprite.getPosition();
+	switch(m_preDir){
+
+		case FORWARD:
+			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+1)){
+				
+				// Character tmp = m_map.getCharacter(m_map.getBlockIndex(position.x, position.y)+1);
+			}
+		break;
+	}
+
+
+}
+
 void Character::move(){
+
+	if (m_delay == 1) m_delay = 0;
 
 	int dir = checkDir();
 
 	sf::Vector2f position = m_sprite.getPosition();
+	int blockIndex = m_map.getBlockIndex(position.x, position.y);
 
-	// printf("%d %d\n", position.x, position.y);
-	std::cout << position.x << " " << position.y << std::endl;
+	if (clock.getElapsedTime().asSeconds() > 0.1f){
 
-	if (clock.getElapsedTime().asSeconds() > 0.03f){
-
-		printf("In move, dir:%d \n", dir);
 		switch (dir){
 
 			case STOP:
-				printf("Stop\n");
+				if (DEBUG) std::cout << position.x << " " << position.y << " " << m_map.getBlockIndex(position.x, position.y) << "\n";
 				animation(STOP);
 				m_sprite.move(0, 0);
 			break;
 			case FORWARD:
+
 				printf("Move Forward\n");
 				animation(FORWARD);
-				
-				if(position.x >= 1140) m_sprite.move(0, 0);
-				else m_sprite.move(10, 0);
+
+				if (m_delay <= 0){
+
+					if (!m_map.canWalk(blockIndex, FORWARD)) m_sprite.move(0, 0);
+					else if (position.x >= 1160) m_sprite.move(0, 0);
+					else m_sprite.move(32, 0);
+				}
+
 			break;
 			case BACKWARD:
 				printf("Move Backward\n");
 				animation(BACKWARD);
 
-				if(position.x <= -10) m_sprite.move(0,0);
-				else m_sprite.move(-10, 0);
+				if (m_delay <= 0){
+
+					if (!m_map.canWalk(blockIndex, BACKWARD)) m_sprite.move(0, 0);
+					else if (position.x <= 0) m_sprite.move(0, 0);
+					else m_sprite.move(-32, 0);
+				}
+
 			break;
 			case UP:
 				printf("Move UP\n");
 				animation(UP);
 
-				if(position.y <= 0) m_sprite.move(0, 0);
-				else m_sprite.move(0, -10);
+				if (m_delay <= 0){
+
+					if (!m_map.canWalk(blockIndex, UP)) m_sprite.move(0, 0);
+					else if (position.y <= 0) m_sprite.move(0, 0);
+					else m_sprite.move(0, -32);
+				}
+
 			break;
 			case DOWN:
 				printf("Move Down\n");
 				animation(DOWN);
 
-				if(position.y >= 720) m_sprite.move(0, 0);
-				else m_sprite.move(0, 10);
+				if (m_delay <= 0){
+
+					if (!m_map.canWalk(blockIndex, DOWN)) m_sprite.move(0, 0);
+					else if (position.y >= 743) m_sprite.move(0, 0);
+					else m_sprite.move(0, 32);
+				}
+
 			break;
 			default:
-				printf("In default\n");
 				animation(STOP);
 				m_sprite.move(0, 0);
 			break;
@@ -87,23 +173,19 @@ void Character::move(){
 	}
 	else{
 
-		printf("animation failed -> time: %f\n", clock.getElapsedTime().asSeconds());
+		// printf("animation failed -> time: %f\n", clock.getElapsedTime().asSeconds());
 	}
+	m_delay++;
 }
 
 void Character::animation(int animate){
 
-	printf("animate\n");
 
 	if(animate == STOP){
 
-		if(m_preDir == BACKWARD || m_preDir == FORWARD){
-
-			printf("In\n");
-			m_rectSourceSprite.left = 539;
-		}
-		else
-			m_rectSourceSprite.left = 0;
+		if(m_preDir == BACKWARD || m_preDir == FORWARD) m_rectSourceSprite.left = 539;
+	
+		else m_rectSourceSprite.left = 0;
 	}
 	else
 		m_rectSourceSprite.left += interval;
@@ -118,8 +200,7 @@ void Character::animation(int animate){
 
 void Character::update(){
 
-	if(m_dir != STOP)
-		m_preDir = m_dir;
+	if(m_dir != STOP) m_preDir = m_dir;
 	
 	m_sprite.setTextureRect(m_rectSourceSprite);
 }
@@ -129,16 +210,21 @@ void Character::createSprite(std::string str){
 	loadImage(str);
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_rectSourceSprite);
+	m_sprite.setScale(0.6f, 0.6f);
 }
 
 void Character::loadImage(std::string str){
 
-	if(!m_texture.loadFromFile(str)){
-
-		printf("Failed to loadImage\n");
-	}
+	if(!m_texture.loadFromFile(str)) printf("Failed to loadImage\n");
+	
+	else printf("Sucess to load Image\n");
 }
 
+
+bool Character::isCharacterValid(){
+
+	return m_valid;
+}
 
 sf::Sprite Character::show(){
 

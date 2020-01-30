@@ -1,11 +1,15 @@
 #include "player.h"
 
-void Player::setDir(int dir){
+Player::Player(){
 
-	m_dir = dir;
+	m_key = m_preKey = STOP;
+	m_talk = false;
 }
 
-void Player::keyEvent(){
+
+void Player::keyEvent(int state){
+
+	int STATE = PLAY;
 
 	switch(m_key){
 
@@ -23,10 +27,36 @@ void Player::keyEvent(){
 		break;
 		case CONFIRM:
 			setDir(STOP);
-			//TODO
+			std::cout << "Z press" << "\n";
+			switch(STATE){
+
+				case PLAY:
+					
+					sf::Vector2f position = m_sprite.getPosition();
+					switch(m_preDir){
+
+						case UP:
+
+						break;
+						case FORWARD:
+
+							if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+1)) std::cout << "True" << "\n";
+							else std::cout << "False" << "\n";
+
+						break;
+					}
+					
+				break;
+			}
+
+
+
 		break;
 		case ESCAPE:
 			setDir(STOP);
+
+
+
 			//TODO
 		break;
 		case STOP:
@@ -62,11 +92,10 @@ void Player::processInput(){
 
 void Player::update(){
 
-	printf("update\n");
-	if (m_dir != STOP)
-		m_preDir = m_dir;
+	if (m_dir != STOP) m_preDir = m_dir;
 
 	m_preKey = m_key;
 	m_sprite.setTextureRect(m_rectSourceSprite);
+	// std::cout << m_sprite.getPosition().x << " " << m_sprite.getPosition().y << "\n";
 }
 
