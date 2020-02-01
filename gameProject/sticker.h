@@ -15,6 +15,7 @@ public:
 
 	void setMap(Map map);
 	void stickCharacter(int index, Character character);
+	void access(int index);
 	Character getCharacter(int index);
 
 private:

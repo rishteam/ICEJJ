@@ -230,3 +230,16 @@ int Character::getSkillsetSize(){
 
 	return skillSet.size();
 }
+
+sf::Sprite Character::getBattleSprite(){
+
+	return m_battleSprite;
+}
+
+void Character::setBattleSprite(){
+
+	m_battleSprite.setTexture(m_texture);
+	m_battleSprite.setTextureRect(sf::IntRect(0, 0, 77, 77));
+	m_battleSprite.setScale(1.2f, 1.2f);
+	m_battleSprite.setPosition(700, 60);
+}

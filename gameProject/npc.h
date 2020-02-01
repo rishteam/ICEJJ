@@ -15,7 +15,6 @@ public:
 	void createSprite(int type);
 	void setSkill(int type);
 	void setBattleSprite();
-	sf::Sprite getBattleSprite();
 
 private:
 
@@ -29,7 +28,6 @@ private:
 	int provideExp;
 	int m_type;
 
-	sf::Sprite m_battleSprite;
 	std::vector<int> m_movement;
 
 };

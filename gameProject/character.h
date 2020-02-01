@@ -13,6 +13,7 @@ class Character : public Value {
 public:
 
 	static const int interval = 77;
+	bool canBattle = true;
 
 	Character();
 	Character(int face);
@@ -29,6 +30,8 @@ public:
 	sf::Sprite show();
 	Skill getSkill(int index);
 	int getSkillsetSize();
+	sf::Sprite getBattleSprite();
+	void setBattleSprite();
 
 protected:
 
@@ -37,6 +40,7 @@ protected:
 	void loadImage(std::string str);
 	
 	sf::Sprite m_sprite;
+	sf::Sprite m_battleSprite;
 	sf::Texture m_texture;
 	sf::IntRect m_rectSourceSprite;
 	sf::Clock clock;

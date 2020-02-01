@@ -14,7 +14,7 @@ public:
 #define Addatk 3
 #define Adddef 4
 #define Addspd 6
-#define Heal 6
+#define Heal 7
 
 	Skill(std::string name, int power, int rate, std::string description, int id, int additional);
 
@@ -22,7 +22,11 @@ public:
 	int getDamage(int atk, int def);
 
 	int getId();
+	int getPower();
+	int getRate();
+	int getAdditional();
 	std::string getName();
+	std::string getDescription();
 
 private:
 

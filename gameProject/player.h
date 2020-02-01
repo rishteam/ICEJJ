@@ -20,15 +20,18 @@ public:
 	void move();
 	void importMap(Map map);
 	void stick(int x, int y, Character character);
+	void conquer();
 	bool battle();
 	Character getBattle();
 
+	//hotfix
+	void setReadyBattle(Character character);
+
 	void setBattleSprite();
-	sf::Sprite getBattleSprite();
 
 private:
 
-	sf::Sprite m_battleSprite;
+	// sf::Sprite m_battleSprite;
 	int m_preKey;
 	int m_key;
 	int m_delay;

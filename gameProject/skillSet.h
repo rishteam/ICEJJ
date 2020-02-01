@@ -11,7 +11,7 @@ public:
 #define Addatk 3
 #define Adddef 4
 #define Addspd 6
-#define Heal 6
+#define Heal 7
 
 	SkillSet();
 	Skill findSkillById(int id);

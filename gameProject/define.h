@@ -21,6 +21,11 @@
 #define ENEMYSPD 3 
 #define Boss     4
 
+#define STRATEGY 0
+#define EXECUTE  1
+#define EFFECT   2
+#define FINISH   3
+
 #include<iostream>
 #include<string>
 #include<map>

@@ -15,6 +15,10 @@ void Sticker::stickCharacter(int index, Character character){
 	occupied[index] = character;
 }
 
+void Sticker::access(int index){
+
+	occupied[index].canBattle = false;
+}
 
 Character Sticker::getCharacter(int index){
 

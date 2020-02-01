@@ -19,12 +19,13 @@ public:
 #define Addatk 3
 #define Adddef 4
 #define Addspd 6
-#define Heal 6
+#define Heal 7
 
 	Value();
 
 	int getLevel();
 	int getHp();
+	int getDef();
 	int getExp();
 	int getAtk();
 	int getSpd();
@@ -37,9 +38,9 @@ public:
 	void updateExp(int exp);
 	int updateNextLevelExp();
 	void addKillType(int type);
+	void setAbilities(int LEVEL = 5, int HP = 24, int ATK = 12, int DEF = 5, int SPD = 8);
 
-protected:
-
+// protected:
 	int getPropotion(int num);
 
 	int m_LEVEL;
@@ -54,5 +55,4 @@ protected:
 	int nextLevelExp;
 
 	int killTypeCounter[4];
-
 };

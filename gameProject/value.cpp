@@ -15,6 +15,15 @@ Value::Value(){
 	nextLevelExp = updateNextLevelExp();
 }
 
+void Value::setAbilities(int LEVEL, int HP, int ATK, int DEF, int SPD){
+
+	m_LEVEL = LEVEL;
+	m_HP = HP;
+	m_ATK = ATK;
+	m_DEF = DEF;
+	m_SPD = SPD;
+}
+
 void Value::addKillType(int type){
 
 	if(std::accumulate(killTypeCounter, killTypeCounter+4, 0) == 50) return;
@@ -74,6 +83,11 @@ void Value::levelUp(){
 	m_DEF += 1 + getPropotion(killTypeCounter[DEFEND]);
 	m_SPD += 1 + getPropotion(killTypeCounter[SPEED]);
 	m_negStatus = None;
+}
+
+int Value::getDef(){
+
+	return m_DEF;
 }
 
 int Value::getLevel(){

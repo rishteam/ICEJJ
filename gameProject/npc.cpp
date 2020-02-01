@@ -45,19 +45,25 @@ NPC::NPC(float time){
 
 void NPC::setSkill(int type){
 
+	std::cout << "set Npc Skill\n";
 	skillSet.push_back(allSkills.findSkillById(0));
 
 	switch(type){
 
 		case ENEMYHEA:
+			skillSet.push_back(allSkills.findSkillById(1));
+			skillSet.push_back(allSkills.findSkillById(2));
 			skillSet.push_back(allSkills.findSkillById(6));
+			skillSet.push_back(allSkills.findSkillById(7));
 		break;
 		case ENEMYATK:
 			skillSet.push_back(allSkills.findSkillById(2));
 			skillSet.push_back(allSkills.findSkillById(6));
-		break;
+			skillSet.push_back(allSkills.findSkillById(10));
+			break;
 		case ENEMYDEF:
 			skillSet.push_back(allSkills.findSkillById(1));
+			skillSet.push_back(allSkills.findSkillById(4));
 			skillSet.push_back(allSkills.findSkillById(6));
 		break;
 		case ENEMYSPD:
@@ -67,8 +73,9 @@ void NPC::setSkill(int type){
 			skillSet.push_back(allSkills.findSkillById(9));
 			skillSet.push_back(allSkills.findSkillById(10));
 			skillSet.push_back(allSkills.findSkillById(8));
-			skillSet.push_back(allSkills.findSkillById(7));
-		break;
+			skillSet.push_back(allSkills.findSkillById(4));
+			skillSet.push_back(allSkills.findSkillById(6));
+			break;
 	}
 }
 
@@ -185,12 +192,6 @@ void NPC::setBattleSprite(){
 
 	m_battleSprite.setTexture(m_texture);
 	m_battleSprite.setTextureRect(sf::IntRect(0, 0, 77, 77));
-	m_battleSprite.setScale(2.0f, 2.0f);
+	m_battleSprite.setScale(1.2f, 1.2f);
 	m_battleSprite.setPosition(700, 60);
-}
-
-sf::Sprite NPC::getBattleSprite()
-{
-
-	return m_battleSprite;
 }

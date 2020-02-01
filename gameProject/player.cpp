@@ -8,7 +8,10 @@ Player::Player(){
 
 	skillSet.push_back(allSkills.findSkillById(0));
 	skillSet.push_back(allSkills.findSkillById(2));
-
+	skillSet.push_back(allSkills.findSkillById(3));
+	skillSet.push_back(allSkills.findSkillById(5));
+	skillSet.push_back(allSkills.findSkillById(7));
+	// skillSet.push_back(allSkills.findSkillById(10));
 	skillCanLearn.push_back(std::pair<Skill, int>(allSkills.findSkillById(3), 8));
 	skillCanLearn.push_back(std::pair<Skill, int>(allSkills.findSkillById(5), 16));
 	skillCanLearn.push_back(std::pair<Skill, int>(allSkills.findSkillById(10), 28));
@@ -49,6 +52,11 @@ void Player::stick(int x, int y, Character character){
 	sticker.stickCharacter(index, character);
 }
 
+void Player::setReadyBattle(Character character){
+
+	readyBattle = character;
+}
+
 void Player::keyEvent(int state){
 
 	int STATE = PLAY;
@@ -83,8 +91,10 @@ void Player::keyEvent(int state){
 							case UP:
 								if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)-38)){
 
-									Character tmp = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) + 1);
+									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) -38);
+									readyBattle.setBattleSprite();
 									searchBattle = true;
+									std::cout << readyBattle.getHp() << "\n";
 									std::cout << "True" << "\n";
 								}
 								else {
@@ -98,7 +108,9 @@ void Player::keyEvent(int state){
 								if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+1)){
 
 									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) + 1);
+									readyBattle.setBattleSprite();
 									searchBattle = true;
+									std::cout << readyBattle.getHp() << "\n";
 									std::cout << "True" << "\n";
 								}
 								else {
@@ -110,8 +122,10 @@ void Player::keyEvent(int state){
 							case BACKWARD:
 								if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)-1)){
 
-									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) + 1);
+									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) - 1);
+									readyBattle.setBattleSprite();
 									searchBattle = true;
+									std::cout << readyBattle.getHp() << "\n";
 									std::cout << "True" << "\n";
 								}
 								else {
@@ -123,8 +137,10 @@ void Player::keyEvent(int state){
 							case DOWN:
 								if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+38)){
 
-									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) + 1);
+									readyBattle = sticker.getCharacter(m_map.getBlockIndex(position.x, position.y) + 38);
+									readyBattle.setBattleSprite();
 									searchBattle = true;
+									std::cout << readyBattle.getHp() << "\n";
 									std::cout << "True" << "\n";
 								}
 								else {
@@ -287,7 +303,36 @@ void Player::setBattleSprite(){
 	m_battleSprite.setPosition(350, 450);
 }
 
-sf::Sprite Player::getBattleSprite(){
+void Player::conquer(){
 
-	return m_battleSprite;
+	sf::Vector2f position = m_sprite.getPosition();
+	switch(m_preDir){
+
+		case UP:
+			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)-38)){
+
+				sticker.access(m_map.getBlockIndex(position.x, position.y)-38);
+			}
+		break;
+		case FORWARD:
+
+			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+1)){
+
+				sticker.access(m_map.getBlockIndex(position.x, position.y)+1);
+			}
+		break;
+		case BACKWARD:
+			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)-1)){
+
+				sticker.access(m_map.getBlockIndex(position.x, position.y)-1);
+			}
+		break;
+		case DOWN:
+			if(m_map.hasPeople(m_map.getBlockIndex(position.x, position.y)+38)){
+
+				sticker.access(m_map.getBlockIndex(position.x, position.y)+38);
+			}
+		break;
+
+	}
 }
